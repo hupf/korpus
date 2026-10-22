@@ -3,7 +3,7 @@
 Schubladenkorpus aus Eichen-Leimholz, von Hand gebaut, für unter das Pult (Rückwand sichtbar).
 FreeCAD-Modell: `Korpus.FCStd` – alle Masse kommen aus dem **Spreadsheet** und lassen sich dort ändern.
 
-Stand: 16.10.2026
+Stand: 22.10.2026
 
 ---
 
@@ -50,6 +50,38 @@ Stand: 16.10.2026
 - **Im Modell:**
   - Die Oberseite ist ein Link der Unterseite, die rechte Seite ein Link der linken Seite.
   - Beide Links sind um 180° um die Tiefenachse gedreht. Dadurch liegen die Nuten auch beim Gegenstück innen, und Änderungen an der Unterseite bzw. der linken Seite gelten automatisch für beide Teile.
+
+### Eckverbindung: stumpf mit Dübeln (entschieden)
+
+| Wert (Spreadsheet) | Mass | Bemerkung |
+|---|---|---|
+| `DowelDiameter` × `DowelLength` | 8 × 35 mm | Riffeldübel |
+| `DowelDepthPanel` | 12 mm | Lochtiefe in Ober- und Unterseite, 6 mm Restmaterial |
+| `DowelDepthSide` | 25 mm | Lochtiefe im Hirnholz der Seite, berechnet (`DowelLength − DowelDepthPanel + 2 mm`). Die 2 mm Luft nehmen überschüssigen Leim auf. |
+| `DowelCount` | 6 | pro Ecke |
+| `DowelFromFront` / `DowelFromBack` | 30 / 50 mm | Abstand der Dübelmitte zur Vorder- bzw. Hinterkante. Hinten genug Abstand zur Rückwand-Nut. Ergibt ein Raster von 64 mm. |
+| `DowelInset` | 9 mm | `= Wall / 2`, mittig in der Seite |
+
+- **Begründung:**
+  - Seitlich sieht man oben und unten je einen 18 mm Hirnholzstreifen von Ober- und Unterseite. Das ist schlicht und ehrlich, typisch Shaker.
+  - Alle vier Teile arbeiten in der Tiefe, also gleich gerichtet. Die Dübelreihe läuft von vorne nach hinten und bewegt sich mit.
+  - Mit Bohrmaschine und einer selbstzentrierenden Dübellehre gut machbar.
+- **Verleimen in zwei Etappen** (möglich, weil die Rückwand-Nut in den Seiten durchläuft):
+  1. Unterseite und beide Seiten verleimen und rechtwinklig spannen, z.B. mit einer trocken eingesetzten Hilfsplatte oben.
+  2. Die Rückwand von oben in die Nuten der Seiten einschieben, bis sie in der Nut der Unterseite sitzt. Nicht verleimen (siehe Abschnitt 5).
+  3. Die Oberseite senkrecht auf Dübel und Rückwand-Feder aufsetzen und verleimen.
+  - So sind nie mehr als zwei Ecken gleichzeitig unter Zeitdruck.
+- **Im Modell:**
+  - Die Dübellöcher sind in der Unterseite und der linken Seite modelliert, als Pocket mit Linear-Muster.
+  - Oberseite und rechte Seite übernehmen sie über die Links.
+  - Die Dübel selbst sind nicht dargestellt.
+- **Verworfene Varianten:**
+  - **Gehrung:** Die 400 mm lange Hirnholz-Gehrung wäre das riskanteste Detail am Möbel.
+    - Eine Eselsohr-Stosslade müsste eine Hobelbahn von 450–500 mm haben, und die schweren Seiten würden schräg wegragen.
+    - Schon ein Fehler von 0.5° pro Teil ergibt ca. 0.4 mm Spalt.
+    - Eine reine Gehrung hält kaum (Hirnholz auf Hirnholz) und bräuchte eine Verstärkung. Eine Feder in der 45°-Fläche ist von Hand heikel, und Leimklötze innen ragen in den Schubladenraum.
+  - **Gehrung mit eingesetzten Keilen** (*mitre keys*): Im Muster angeschaut, optisch nicht gefallen.
+  - **Halbverdeckte Zinken** bzw. **Zinken mit Gehrungsabschluss** (*mitred through dovetail*): schön, aber viel Arbeit. Vier Ecken auf einmal zusammenzubringen ist anspruchsvoll; schon die offenen Zinken am Schuhgestell waren es.
 
 ### Kanten vorne
 - Die **äusseren** Vorderkanten des Korpus sind mit **Radius 3 mm** gerundet (`FrontRadius`). Die Rundung läuft rundum wie ein Bilderrahmen, auch über die kurzen Stirnkanten von Ober- und Unterseite.
@@ -237,7 +269,7 @@ Inspiration: Teak-Kommode von Børge Mogensen (60er-Jahre). Der Sockel ist nach 
     - Seitliche Gleitleisten: Eine Leiste an der Korpusseite greift in eine Nut in der Schubladenzarge, oder umgekehrt. Gut von Hand machbar, auch mit dem Nuthobel.
     - Metallauszüge (Kugel- oder Vollauszüge): leichtgängig, Vollauszug möglich. Sie brauchen seitlich meist 12.5 mm Platz pro Seite und sind sichtbar, wenn die Schublade offen ist.
     - Kippsicherung bzw. Anschlag: Wie weit lässt sich die Schublade ausziehen, wo stoppt sie beim Schliessen?
-- [ ] **Eckverbindung des Korpus** festlegen (z.B. Zinken, Dübel, Lamellos …).
+- [x] **Eckverbindung des Korpus:** stumpf mit Dübeln, siehe Abschnitt 4.
 - [ ] **Oberfläche:** Öl oder Hartwachsöl. Mit den geschwärzten Griffen an einem Reststück testen.
 - [ ] Testbrett anfertigen: Rundung 3 mm, Abplattung, Eisenacetat.
 - [ ] Rendering (später): Export nach Blender, Eichentextur pro Teil in Faserrichtung ausrichten.
