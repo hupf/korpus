@@ -3,7 +3,7 @@
 Schubladenkorpus aus Eichen-Leimholz, von Hand gebaut, für unter das Pult (Rückwand sichtbar).
 FreeCAD-Modell: `Korpus.FCStd` – alle Masse kommen aus dem **Spreadsheet** und lassen sich dort ändern.
 
-Stand: 10.10.2026
+Stand: 16.10.2026
 
 ---
 
@@ -12,16 +12,16 @@ Stand: 10.10.2026
 | Wert (Spreadsheet) | Mass | Bemerkung |
 |---|---|---|
 | `TotalHeight` | 580 mm | Gesamthöhe inkl. Füsse |
-| `FeetHeight` | 75 mm | Höhe der Füsse (Füsse noch nicht modelliert) |
-| `BodyHeight` | 505 mm | Korpushöhe |
+| `FeetHeight` | 40 mm | Höhe des Sockels (siehe Abschnitt 7) |
+| `BodyHeight` | 540 mm | Korpushöhe, wird berechnet (`TotalHeight − FeetHeight`) |
 | `BodyWidth` × `BodyDepth` | 400 × 400 mm | |
 | `Wall` | 18 mm | Plattenstärke = Eichen-Leimholz aus dem Baumarkt (Bauhaus/Jumbo) |
 | `DrawerCount` | 4 | |
 | `DrawerGap` | 3 mm | Fuge ringsum, überall gleich |
-| `DrawerHeight` | 113.5 mm | Fronthöhe, wird berechnet |
+| `DrawerHeight` | 122.25 mm | Fronthöhe, wird berechnet |
 
-- Lichte Öffnung: 364 × 469 mm
-- Schubladenfronten: 358 × 113.5 × 18 mm, einliegend, bündig mit der Korpusvorderkante
+- Lichte Öffnung: 364 × 504 mm
+- Schubladenfronten: 358 × 122.25 × 18 mm, einliegend, bündig mit der Korpusvorderkante
 - Innentiefe bis Rückwand: 382 mm → für die Schubladenkästen berücksichtigen
 
 ## 2. Material & Grundsätze
@@ -77,7 +77,7 @@ Sichtbare Rückwand aus dem gleichen Eichen-Leimholz, schwimmend in einer Nut.
 | `BackpanelBevel` | 40 mm | Breite der Abplattung, von der Nutkante bis zum Spiegel |
 | `BackpanelSpacing` | **0 mm** | Spiegel **bündig** mit der Hinterkante des Korpus |
 
-- **Rückwand:** 376 × 481 × 18 mm.
+- **Rückwand:** 376 × 516 × 18 mm.
   - Die Feder (8 mm) liegt **innen bündig**.
   - Aussen steigt die Abplattung über 40 mm von 8 auf 18 mm an, das sind etwa 14°.
 - **Nut:** 8 × 8 mm, mit 10 mm Material bis zur Hinterkante.
@@ -142,7 +142,77 @@ Sichtbare Rückwand aus dem gleichen Eichen-Leimholz, schwimmend in einer Nut.
 
 Im FreeCAD-Baum unter **Schublade** lassen sich Griff und Knopf mit der **Leertaste** ein- und ausblenden. Das Array übernimmt das für alle Schubladen.
 
-## 7. Stil
+## 7. Sockel (Unterbau)
+
+Inspiration: Teak-Kommode von Børge Mogensen (60er-Jahre). Der Sockel ist nach innen versetzt, aus dem gleichen Material wie der Korpus, die Ecken leicht gerundet.
+
+| Wert (Spreadsheet) | Mass | Bemerkung |
+|---|---|---|
+| `FeetHeight` | 40 mm | Sockelhöhe. 75 mm wirkte zu mächtig. |
+| `PlinthInsetFront` | 20 mm | Rücksprung vorne (Schattenfuge, Korpus wirkt leichter) |
+| `PlinthInsetSide` | `= PlinthInsetBack` (10 mm) | Rücksprung seitlich, gleich wie hinten |
+| `PlinthInsetBack` | `= BackpanelSpacing + BackpanelThickness − BackpanelTongue` (10 mm) | = Material hinter der Rückwand-Nut. Das hintere Sockelteil fluchtet mit der hinteren Nutwand und stützt die Unterseite dort, wo sie nur 10 mm dick ist. Bei `BackpanelSpacing = 5 mm` werden es automatisch 15 mm. |
+| `PlinthRadius` | 6 mm | senkrechte Aussenecken gerundet |
+| `PlinthThickness` | `= Wall` | 18 mm Eichen-Leimholz |
+
+- Sockelrahmen aussen: 380 × 370 × 40 mm (Breite × Tiefe × Höhe).
+- Wie bei Mogensen ist er vorne stärker zurückgesetzt als seitlich und hinten. **Nicht ganz bündig** (0 mm) machen: Wie beim Spiegel der Rückwand verzeiht bündig nichts.
+- Faser bei allen vier Teilen waagrecht. Sie arbeiten daher nur in der Höhe (ca. 0.4 mm auf 40 mm); die Ecken bleiben geschlossen.
+- **Im Modell** (Gruppe «Sockel»):
+  - Vier Rahmenteile mit Gehrung. «Sockel hinten» ist ein Link von «Sockel vorne», «Sockel rechts» ein Link von «Sockel links», jeweils um 180° bzw. 90° gedreht. Änderungen gelten automatisch für beide Teile.
+  - Leimklötze in den vier Ecken, Festpunkte in der Mitte der Seiten, vier Nutklötze mit Schlitzen in den Teilen vorne und hinten. Alle Masse im Spreadsheet (Zeilen 27–43).
+
+| Teil | Anzahl | Mass (aussen) | Bemerkung |
+|---|---|---|---|
+| Sockel vorne/hinten | 2 | 380 × 40 × 18 mm | `PlinthLengthFront`, beidseitig Gehrung, je 2 Schlitze |
+| Sockel seitlich | 2 | 370 × 40 × 18 mm | `PlinthLengthSide`, beidseitig Gehrung |
+| Leimklotz Ecke | 4 | 18 × 18 × 36 mm | 2 mm Luft oben und unten (`PlinthBlockGap`), berührt den Korpus nicht |
+| Festpunkt | 2 | 18 × 30 × 20 mm | oben bündig, an die Seite geleimt, an die Unterseite geschraubt. Loch Ø 4.5 mm mit Ansenkung Ø 10 × 8 mm von unten, Schraube 4 × 25 (ca. 13 mm in der Unterseite) |
+| Nutklotz | 4 | 18 × 40 × 14 mm | Lippe 8 × 5 mm, 1 mm Anzug, 3 mm Luft im Nutgrund. Loch Ø 4.5 mm mit Senkung 90° von unten, Senkkopfschraube 4 × 25 (ca. 11 mm in der Unterseite) |
+
+### Eckverbindung
+- **Favorit: Gehrung mit Leimklotz.**
+  - **Sägen:** mit der Tauchsäge an der Führungsschiene, auf 45° geschwenkt, ca. 0.5 mm Übermass.
+    - Zuerst den Winkel an vier Probestücken prüfen und trocken zusammenstellen. Der 45°-Anschlag der Säge ist selten ganz genau, und jeder Fehler kommt an jeder Ecke doppelt vor.
+    - Alle vier Teile nebeneinander unter die Schiene spannen, beidseitig ein Opferstück. So liegt die Schiene satt auf, und die gegenüberliegenden Teile werden gleich lang.
+    - Ausrisse: Bei geschwenkter Säge schützt der Splitterschutz nicht ganz. Am Probestück prüfen, welche Seite sauber bleibt, und die Sichtseite dorthin legen.
+  - **Nachstossen:** auf einer **Eselsohr-Stosslade** (*donkey ear shooting board*). Das Teil liegt flach am 90°-Anschlag, der Hobel läuft auf einer 45°-Rampe. Die Gehrungsfläche ist nur 25.5 mm breit, das passt gut.
+    - Eine normale Stosslade mit 45°-Anschlag (Teil hochkant) geht hier nicht, weil der Hobel dann 40 mm Höhe schneiden müsste. Real schafft er nur ca. 25–30 mm.
+    - Stossen, bis die vier Ecken trocken dicht schliessen. Liefert die Säge schon dichte Ecken, kann man es auslassen.
+  - Die Rundung r = 6 nimmt aussen an der Gehrung ca. 1.8 mm weg. Ein Haarspalt ganz an der Spitze verschwindet beim Runden.
+  - Innen in jede Ecke einen Leimklotz leimen, Langholz an Langholz. Das reicht bei einem Sockel, der unten am Korpus hängt.
+  - Mit einem Spannband alle vier Ecken auf einmal verleimen.
+  - Erst nach dem Verleimen die Ecken auf r = 6 mm runden (Fase → Achteck → verrunden, wie am Korpus).
+- **Alternative: Gehrung mit Feder.**
+  - Feder 4–5 mm dick und ca. 16 mm breit, je 8 mm in jedes Teil. Die Nut läuft über die ganze Höhe durch (unten unsichtbar, oben vom Korpus verdeckt).
+  - Faser der Feder **quer zur Fuge** (waagrecht): So ist sie stabil und arbeitet gleich wie der Sockel. Dazu eine 16 mm breite Scheibe vom Brettende absägen und in Streifen auftrennen.
+  - Von Hand: Nutwände mit Streichmass anreissen, mit der Feinsäge einsägen, mit Stechbeitel oder Grundhobel ausräumen.
+  - Die Rundung kürzt die Gehrung aussen nur um ca. 2.5 mm und trifft die Feder nicht.
+- **Alternative: Gehrfalz mit Dübel** (Spannagel, *Der Möbelbau*, S. 83).
+  - Aussen nur ein kurzes Stück Gehrung, dahinter ein Falz; ein Dübel wird im 90°-Winkel durch die Verbindung geleimt.
+  - Vorteil: Der Falz gibt beim Verleimen einen Anschlag, nichts verrutscht.
+  - Heikel: Die kurze Gehrung an der dünnen Lippe ist die einzige sichtbare Stelle und muss genau schliessen. Der Falz quer zur Faser braucht Säge und Stechbeitel (oder einen Simshobel mit Vorschneider).
+  - Die Lippe muss mindestens ca. 3–4 mm dick sein. Dann liegt die Fuge auf der Rundung (r = 6) noch in der Gehrung, und man sieht kein Hirnholz.
+
+### Holz für die Klötze
+- Reststücke vom gleichen Eichen-Leimholz. Alle Klötze sind so bemessen, dass ein Mass der Plattenstärke (18 mm) entspricht: sägen, nicht hobeln.
+- **Leimklotz Ecke:** Faser **senkrecht**, damit an beiden Sockelteilen Langholz anliegt (waagrecht wäre eine Seite Hirnholz).
+- **Festpunkt:** Faser von vorne nach hinten, gleich wie die Sockelseite.
+- **Nutklotz:** Faser in Richtung der Lippe. Aus **einer Lamelle**, keine Leimfuge in der Lippe. Leisten 18 × 14 mm auftrennen, am Leistenende die Lippe mit der Feinsäge aussägen, ablängen, wiederholen.
+
+### Befestigung am Korpus (Holzbewegung)
+- Die Unterseite hat die Faser links–rechts und arbeitet **in der Tiefe**, um bis zu ca. 4 mm. Der Sockelrahmen bleibt in der Fläche masshaltig. Deshalb wird der Sockel **nicht verleimt**.
+- **Festpunkt in der Mitte jeder Sockelseite:** Leimklotz an die Seite leimen und fest an die Unterseite schrauben. So bewegt sich der Korpus nach vorne und hinten um je ca. ±1 mm (vorne 20 ± 1, hinten 10 ± 1 mm). Bei einem Festpunkt vorne würde der Rücksprung hinten zwischen ca. 6 und 14 mm schwanken.
+- **Je 2 Nutklötze vorne und hinten**, ca. 60 mm von den Ecken:
+  - Nut bzw. Schlitz im Sockel: 6 mm breit, 8 mm tief, Oberkante 10 mm unter der Sockeloberkante.
+  - Klotz 18 × 40 mm. Von der Auflage am Korpus bis zur Oberseite der Lippe 9 mm, also 1 mm weniger als 10 mm: So zieht die Schraube den Sockel an den Korpus.
+  - **Faser im Klotz in Richtung der Lippe**, sonst bricht die Lippe ab.
+  - Im Nutgrund ca. 3 mm Luft lassen (wenn im trockenen Winter montiert wird).
+  - Schraube 4 × 25 mm, vorbohren. Nicht zu lang wählen, die Unterseite ist nur 18 mm dick.
+  - **Runde Löcher, keine Langlöcher:** Der Nutklotz ist fest mit dem Korpus verschraubt und bewegt sich mit ihm. Die Bewegung passiert an der Lippe im Schlitz.
+  - **Einzelne Schlitze** (ca. 6 × 30 mm) mit dem Stechbeitel stemmen statt einer durchlaufenden Nut. Eine durchlaufende Nut würde in den Ecken die Federnut bzw. den Leimklotz anschneiden.
+
+## 8. Stil
 
 - **Richtung:** Shaker bzw. skandinavisch-handwerklich: abgeplattete Füllung, gerundete Kanten, schlichte Fronten.
 - **Inspiration:**
@@ -153,7 +223,7 @@ Im FreeCAD-Baum unter **Schublade** lassen sich Griff und Knopf mit der **Leerta
   - Max Bill: Ulmer Hocker (sichtbare Verbindung als Gestaltung).
 - **Faustregel für Kontrasthölzer:** entweder das gleiche Holz oder ein deutlicher Kontrast.
 
-## 8. Offene Punkte
+## 9. Offene Punkte
 
 - [ ] **Schubladen konstruieren** (später). Innentiefe max. ca. 380 mm.
   - **Kasten:**
@@ -168,12 +238,6 @@ Im FreeCAD-Baum unter **Schublade** lassen sich Griff und Knopf mit der **Leerta
     - Metallauszüge (Kugel- oder Vollauszüge): leichtgängig, Vollauszug möglich. Sie brauchen seitlich meist 12.5 mm Platz pro Seite und sind sichtbar, wenn die Schublade offen ist.
     - Kippsicherung bzw. Anschlag: Wie weit lässt sich die Schublade ausziehen, wo stoppt sie beim Schliessen?
 - [ ] **Eckverbindung des Korpus** festlegen (z.B. Zinken, Dübel, Lamellos …).
-- [ ] **Unterbau (75 mm Höhe, `FeetHeight`)** entscheiden, gestalten und modellieren. Möglichkeiten:
-  - **Rollen:** praktisch unter einem Pult, weil sich der Korpus verschieben lässt. Bremsrollen wählen. Die Bauhöhe der Rollen bestimmt `FeetHeight`. Die Unterseite muss die Schraubpunkte tragen.
-  - **Sockel:** ein zurückgesetzter Rahmen aus Eiche, z.B. 20–30 mm hinter der Vorderkante. Wirkt ruhig und «schwebend», ist stabil und schützt vor Staub darunter.
-  - **Füsse:** vier einzelne Füsse aus Eiche, gerade, leicht konisch oder schräg gestellt. Wirkt leicht und möbelhaft (Shaker / dänisch).
-  - **Kufen:** zwei Leisten links und rechts von vorne nach hinten. Schlicht, handwerklich, einfach zu bauen.
-  - Klären: Soll der Korpus mobil sein? Wie viel Platz bleibt unter dem Pult (Gesamthöhe 580 mm)?
 - [ ] **Oberfläche:** Öl oder Hartwachsöl. Mit den geschwärzten Griffen an einem Reststück testen.
 - [ ] Testbrett anfertigen: Rundung 3 mm, Abplattung, Eisenacetat.
 - [ ] Rendering (später): Export nach Blender, Eichentextur pro Teil in Faserrichtung ausrichten.
