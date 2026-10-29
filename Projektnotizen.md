@@ -244,6 +244,26 @@ Inspiration: Teak-Kommode von Børge Mogensen (60er-Jahre). Der Sockel ist nach 
   - **Runde Löcher, keine Langlöcher:** Der Nutklotz ist fest mit dem Korpus verschraubt und bewegt sich mit ihm. Die Bewegung passiert an der Lippe im Schlitz.
   - **Einzelne Schlitze** (ca. 6 × 30 mm) mit dem Stechbeitel stemmen statt einer durchlaufenden Nut. Eine durchlaufende Nut würde in den Ecken die Federnut bzw. den Leimklotz anschneiden.
 
+## 7a. Schubladen (in Arbeit)
+
+Front stumpf einschlagend aus Eiche 18 mm, Seiten und Hinterstück aus Buche 12 mm, Boden Sperrholz 6 mm. Aufgehängt an seitlichen Laufleisten. Alle Masse im Spreadsheet (Zeilen 56–75).
+
+| Teil / Wert | Mass | Bemerkung |
+|---|---|---|
+| Verbindung vorne | verdeckte Zinken, 3 Stück | Überblattung 6 mm, Zinkenlänge 12 mm (`DrawerLap`) |
+| Verbindung hinten | offene Zinken, 3 Stück | Laufnut möglichst durch eine Schwalbe legen |
+| Tiefe gesamt | 370 mm | `= InnerDepth − 12 mm`, schlägt nie an der Rückwand an |
+| Seiten | 364 × 122.25 × 12 mm | inkl. 12 mm Zinkenlänge vorne; oben und unten bündig mit der Front, Fase innen oben 4 mm × 45° |
+| Hinterstück | 358 × 101.25 × 12 mm | über die ganze Breite (offene Zinken); steht auf dem Boden, 7 mm tiefer als die Seiten (Luft beim Schliessen) |
+| Boden | 342 × 357 × 6 mm | Nut 8 mm ab Unterkante, 5 mm tief in den Seiten, 6 mm in der Front; von hinten eingeschoben, unten ans Hinterstück geschraubt |
+| Laufnut | 17 × 6 mm, 25 mm unter Oberkante | vorne 5 mm hinter der Front gestoppt (= Anschlag), hinten offen |
+| Laufleiste | 8.5 × 16 × 355 mm | vorne Schraube im runden Loch (Festpunkt), hinten Langlöcher: nicht leimen, die Korpusseite arbeitet in der Tiefe |
+
+- **Front bündig einstellen:** Die Laufnut etwas zu kurz ausstemmen und dann nachstemmen, bis die Front bündig steht.
+- **Fugen:** Fronten mit leichtem Übermass bauen und mit 3-mm-Distanzplättchen in der Öffnung einpassen.
+- **Schattenfuge** (nach Nutsch): Falz 3 × 4 mm aussen an der Oberkante der Front (`ShadowGapHeight` / `ShadowGapDepth`, 0 = ohne). Fuge und Falz werden als dunkles Band gelesen, kleine Ungleichmässigkeiten in Fuge und Bündigkeit fallen weniger auf. Den oberen halben Zapfen ca. 8 mm breit machen, damit der Falz keine Zinke anschneidet. **Erst nach dem Einpassen hobeln.**
+- **Im Modell:** Gruppe «Schublade», wird vom Array vervielfacht. Die Laufleisten gehören dazu, obwohl sie am Korpus sitzen. Die rechte Seite und die rechte Laufleiste sind gespiegelt (`Part::Mirroring`). Die Zinken sind nicht ausgeformt; die Teile überlappen in den Verbindungen, damit die Zuschnittmasse stimmen (Zugabe für überstehende Zinken nicht enthalten).
+
 ## 8. Stil
 
 - **Richtung:** Shaker bzw. skandinavisch-handwerklich: abgeplattete Füllung, gerundete Kanten, schlichte Fronten.
@@ -257,18 +277,12 @@ Inspiration: Teak-Kommode von Børge Mogensen (60er-Jahre). Der Sockel ist nach 
 
 ## 9. Offene Punkte
 
-- [ ] **Schubladen konstruieren** (später). Innentiefe max. ca. 380 mm.
-  - **Kasten:**
-    - Material: Eiche 18 mm ist eher schwer. Möglich sind dünnere Zargen, z.B. 10–12 mm Eiche oder ein leichteres Holz.
-    - Eckverbindungen: Zinken (klassisch von Hand: vorne halbverdeckt, hinten offen), Nut und Feder, Falz mit Dübeln.
-    - Boden: in einer Nut schwimmend, Faser von links nach rechts, damit er nach hinten ausweichen kann. Alternativ Sperrholz.
-    - Verbindung von Front und Kasten: Ist die Front selbst die Vorderwand, oder wird sie auf einen Kasten aufgesetzt?
-    - Platz für die Finger hinter dem Griff beachten (bei aufgesetzten Griffen unkritisch).
-  - **Führung:**
-    - Holz auf Holz: Die Schublade läuft auf dem Boden bzw. auf Laufleisten, seitlich geführt. Klassisch, still, kein Beschlag nötig. Braucht genaue Passarbeit und Wachs.
-    - Seitliche Gleitleisten: Eine Leiste an der Korpusseite greift in eine Nut in der Schubladenzarge, oder umgekehrt. Gut von Hand machbar, auch mit dem Nuthobel.
-    - Metallauszüge (Kugel- oder Vollauszüge): leichtgängig, Vollauszug möglich. Sie brauchen seitlich meist 12.5 mm Platz pro Seite und sind sichtbar, wenn die Schublade offen ist.
-    - Kippsicherung bzw. Anschlag: Wie weit lässt sich die Schublade ausziehen, wo stoppt sie beim Schliessen?
+- [x] **Schubladen konstruieren:** siehe Abschnitt 7a.
+  - Verworfen: klassische Führung mit Lauf-, Kipp- und Streichleisten. Die Höhe der Buchenseiten bestimmt dort die Passung, und Quellen führt zum Klemmen. Ausserdem hat der Korpus keine Traversen.
+  - Verworfen: Metallauszüge.
+  - Kein Auszugsstopp; die Schublade lässt sich ca. 70 % ausziehen und dann herausnehmen.
+- [ ] Holz für Schubladenseiten: Buchenbohle auftrennen (evtl. in einer Schreinerei auftrennen und dickenhobeln lassen), steilste Jahrringe für die Seiten. Sperrholz 6 mm mit dem Nuthobel-Eisen abgleichen, sonst den Rand falzen.
+- [ ] Zinken im Modell ausformen (optional).
 - [x] **Eckverbindung des Korpus:** stumpf mit Dübeln, siehe Abschnitt 4.
 - [ ] **Oberfläche:** Öl oder Hartwachsöl. Mit den geschwärzten Griffen an einem Reststück testen.
 - [ ] Testbrett anfertigen: Rundung 3 mm, Abplattung, Eisenacetat.
