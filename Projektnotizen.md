@@ -1,9 +1,10 @@
 # Korpus mit Schubladen – Projektnotizen
 
 Schubladenkorpus aus Eichen-Leimholz, von Hand gebaut, für unter das Pult (Rückwand sichtbar).
+Die Hauptmasse 580 × 400 × 400 mm mit vier Schubladen stammen vom Lista LO Mini-Caddy; die Höhe ist noch nicht definitiv (unter dem Pult nachmessen).
 FreeCAD-Modell: `Korpus.FCStd` – alle Masse kommen aus dem **Spreadsheet** und lassen sich dort ändern.
 
-Stand: 22.10.2026
+Stand: 05.11.2026
 
 ---
 
@@ -246,7 +247,7 @@ Inspiration: Teak-Kommode von Børge Mogensen (60er-Jahre). Der Sockel ist nach 
 
 ## 7a. Schubladen (in Arbeit)
 
-Front stumpf einschlagend aus Eiche 18 mm, Seiten und Hinterstück aus Buche 12 mm, Boden Sperrholz 6 mm. Aufgehängt an seitlichen Laufleisten. Alle Masse im Spreadsheet (Zeilen 56–75).
+Front stumpf einschlagend aus Eiche 18 mm, Seiten und Hinterstück aus Buche 12 mm, Boden Sperrholz 6 mm. Aufgehängt an seitlichen Laufleisten. Alle Masse im Spreadsheet (Zeilen 56–82).
 
 | Teil / Wert | Mass | Bemerkung |
 |---|---|---|
@@ -255,9 +256,25 @@ Front stumpf einschlagend aus Eiche 18 mm, Seiten und Hinterstück aus Buche 12 
 | Tiefe gesamt | 370 mm | `= InnerDepth − 12 mm`, schlägt nie an der Rückwand an |
 | Seiten | 364 × 122.25 × 12 mm | inkl. 12 mm Zinkenlänge vorne; oben und unten bündig mit der Front, Fase innen oben 4 mm × 45° |
 | Hinterstück | 358 × 101.25 × 12 mm | über die ganze Breite (offene Zinken); steht auf dem Boden, 7 mm tiefer als die Seiten (Luft beim Schliessen) |
-| Boden | 342 × 357 × 6 mm | Nut 8 mm ab Unterkante, 5 mm tief in den Seiten, 6 mm in der Front; von hinten eingeschoben, unten ans Hinterstück geschraubt |
+| Boden | 342 × 357 × 6 mm | Nut 8 mm ab Unterkante, 5 mm tief in den Seiten, 6 mm in der Front; von hinten eingeschoben, unten mit 1–2 Senkkopfschrauben 3 × 16 ans Hinterstück geschraubt (Sperrholz arbeitet nicht, kein Langloch; im Modell nicht dargestellt). 6 mm reicht bei leichtem Inhalt, 8–9 mm erst bei schwerem. |
 | Laufnut | 17 × 6 mm, 25 mm unter Oberkante | vorne 5 mm hinter der Front gestoppt (= Anschlag), hinten offen |
-| Laufleiste | 8.5 × 16 × 355 mm | vorne Schraube im runden Loch (Festpunkt), hinten Langlöcher: nicht leimen, die Korpusseite arbeitet in der Tiefe |
+| Laufleiste | 8.5 × 16 × 355 mm | nicht leimen, die Korpusseite arbeitet in der Tiefe (ca. 3 mm). 3 Schrauben, je 25 mm ab Ende und in der Mitte (`RunnerScrewFromEnd`): vorne rundes Loch Ø 4 (Festpunkt, das vordere Ende ist der Anschlag der Front), Mitte und hinten Langloch Ø 4 × 8 (`RunnerSlot` = ± 2 mm). Zylindrische Ansenkung Ø 8 × 3 mm, Linsen- oder Flachkopfschraube 3.5 × 16 (ca. 10 mm in der Seite). Senkkopf geht nicht, er klemmt im Langloch. Der Kopf muss versenkt sein, weil die Schubladenseite mit 0.5 mm Luft vorbeiläuft. **Im trockenen Winter montieren: Schraube ans vordere Ende des Langlochs**, im Sommer ans hintere. |
+
+### Zinkenteilung (Regeln, Beispiel bei `DrawerHeight` = 122.25)
+Die Teilung ist als Regeln festgelegt, damit sie bei jeder Korpushöhe stimmt. Oberste und unterste Schwalbe hängen an der Ober- bzw. Unterkante der Seite; mit der Höhe ändern sich nur die mittleren. Masse ab Unterkante der Seite, am Seitenende (dort sind die Schwalben am breitesten).
+
+- **Allgemein:** Steigung 1:8 (1.5 mm pro Seite über 12 mm Zinkenlänge), Zapfen 6 mm an der schmalen Stelle. Schwalben an den Seiten (Buche), Zapfen an Front bzw. Hinterstück.
+- **Hinten (offen):** Die Verbindung reicht nur über die Höhe des Hinterstücks (14 … `DrawerHeight` − 7).
+  - Die oberste Schwalbe fasst die Laufnut mit 3 mm Rand an der Risslinie. Die Laufleiste ragt hinten 8 mm über die Seite hinaus und läuft durch diese Schwalbe; ein Zapfen an dieser Stelle würde sie blockieren. Die Schwalbe ist durch die Nut auf 6 mm geschwächt, das ist hinten vertretbar.
+  - Halbe Zapfen oben und unten gleich gross, dazwischen 2 gleiche Schwalben.
+  - Beispiel: halbe Zapfen 13.5, Schwalben 27.5–45.6, 51.6–69.75, 75.75–101.75.
+- **Vorne (verdeckt):**
+  - Oben halber Zapfen 8 mm, damit die Schattenfuge (Falz 3 × 4 in der 6-mm-Überblattung) über vollem Holz liegt.
+  - Unten halber Zapfen 4.5 mm, damit die Bodennut mit 2 mm Rand in der untersten Schwalbe liegt und von der Front verdeckt wird. Er ist recht schmal; mit `DrawerBottomFromBottom` = 10 statt 8 würde er 6.5 mm.
+  - 3 gleiche Schwalben. Beispiel: 4.5–37.1, 43.1–75.7, 81.7–114.25.
+- **Grenzen:** Hinten werden die beiden mittleren Schwalben bei `DrawerHeight` < ca. 110 mm (Korpushöhe < ca. 530 mm bei 4 Schubladen) zu schmal; dann nur eine mittlere Schwalbe. Bei ca. 137 mm sind es 25.5 mm.
+- Endgültig am Werkstück mit dem Stechzirkel anreissen, wenn die Höhe feststeht.
+- **Zeichnung:** `Zeichnungen/zinkenteilung.svg`, erzeugt mit `python3 Zeichnungen/zinkenteilung.py [DrawerHeight]`. Die Masse aus dem Spreadsheet sind im Skript fest eingetragen und müssen bei Änderungen nachgeführt werden.
 
 - **Front bündig einstellen:** Die Laufnut etwas zu kurz ausstemmen und dann nachstemmen, bis die Front bündig steht.
 - **Fugen:** Fronten mit leichtem Übermass bauen und mit 3-mm-Distanzplättchen in der Öffnung einpassen.
@@ -273,6 +290,7 @@ Front stumpf einschlagend aus Eiche 18 mm, Seiten und Hinterstück aus Buche 12 
   - Biedermeier.
   - Schweizer Bauernmöbel (Rahmen und Füllung).
   - Max Bill: Ulmer Hocker (sichtbare Verbindung als Gestaltung).
+  - Lista LO Mini-Caddy (Bürocontainer aus Metall, auf Rollen): Proportionen und Hauptmasse, vier gleich hohe Schubladen, ruhige Front.
 - **Faustregel für Kontrasthölzer:** entweder das gleiche Holz oder ein deutlicher Kontrast.
 
 ## 9. Offene Punkte
@@ -282,6 +300,9 @@ Front stumpf einschlagend aus Eiche 18 mm, Seiten und Hinterstück aus Buche 12 
   - Verworfen: Metallauszüge.
   - Kein Auszugsstopp; die Schublade lässt sich ca. 70 % ausziehen und dann herausnehmen.
 - [ ] Holz für Schubladenseiten: Buchenbohle auftrennen (evtl. in einer Schreinerei auftrennen und dickenhobeln lassen), steilste Jahrringe für die Seiten. Sperrholz 6 mm mit dem Nuthobel-Eisen abgleichen, sonst den Rand falzen.
+- [x] Schraublöcher Laufleisten: siehe Abschnitt 7a.
+- [x] Zinkenteilung Schublade: Regeln festgelegt, siehe Abschnitt 7a. Masse endgültig, sobald die Höhe feststeht.
+- [ ] **Korpushöhe festlegen:** unter dem Pult messen (aktuell 580 mm vom Lista Mini-Caddy).
 - [ ] Zinken im Modell ausformen (optional).
 - [x] **Eckverbindung des Korpus:** stumpf mit Dübeln, siehe Abschnitt 4.
 - [ ] **Oberfläche:** Öl oder Hartwachsöl. Mit den geschwärzten Griffen an einem Reststück testen.
